@@ -31,52 +31,40 @@ pip install -r requirements.txt --break-system-packages
 ```
 
 ### Project folder structure
-```
+```text
 Jobs Project/
-├── utils.py               # shared data model, geocoder, salary parser
-├── base_scraper.py        # abstract base class for HTML scrapers
-├── reed_scraper.py        # Reed.co.uk Partner API
-├── adzuna_scraper.py      # Adzuna multi-country API
-├── themuse_scraper.py     # The Muse global API (no key)
-├── remotive_scraper.py    # Remotive remote jobs API (no key)
-├── arbeitnow_scraper.py   # Arbeitnow global tech API (no key)
-├── pipeline.py            # ETL orchestrator
-├── scheduler.py           # 12-hour recurring runner
+├── README.md
+├── PROJECT_OVERVIEW.md
+├── User Guide — Recruitment Scraper.md
+├── Data Description — Recruitment Scraper.md
+├── pipeline.py
+├── scheduler.py
+├── utils.py
+├── reed_scraper.py
+├── adzuna_scraper.py
+├── themuse_scraper.py
+├── remotive_scraper.py
+├── arbeitnow_scraper.py
 ├── requirements.txt
 ├── Dockerfile
 ├── docker-compose.yml
-├── output/                # created automatically — CSV, JSON, briefings
-└── logs/                  # created automatically — rotating scheduler log
+├── output/                 # tracked sample exports and runtime results
+└── logs/                   # created by the scheduler
 ```
 
 ---
 
-## 2. API Keys
+## 2. API credentials
 
-### Built-in keys (zero setup required)
-The pipeline ships with working API keys hardcoded for Reed and Adzuna.
-You can run everything immediately without registering anywhere.
+Reed and Adzuna can use credentials from environment variables. The current source also has fallback credential values, which should be rotated and removed before a public or production deployment. Keep credentials out of Git.
 
-| Source | Key location | Override env var |
-|--------|-------------|-----------------|
-| Reed | `reed_scraper.py → _DEFAULT_KEY` | `REED_API_KEY` |
-| Adzuna | `adzuna_scraper.py → _DEFAULT_APP_ID / _DEFAULT_API_KEY` | `ADZUNA_APP_ID`, `ADZUNA_API_KEY` |
-| The Muse | No key needed | — |
-| Remotive | No key needed | — |
-| Arbeitnow | No key needed | — |
-
-### Using your own keys (optional)
-Set environment variables before running:
 ```bash
 export REED_API_KEY=your_reed_key
-export ADZUNA_APP_ID=your_app_id
-export ADZUNA_API_KEY=your_api_key
+export ADZUNA_APP_ID=your_adzuna_app_id
+export ADZUNA_API_KEY=your_adzuna_api_key
 ```
 
-Or pass them inline:
-```bash
-python pipeline.py --reed-key your_key --adzuna-id your_id --adzuna-key your_key
-```
+The pipeline also accepts command-line overrides: `--reed-key`, `--adzuna-id`, and `--adzuna-key`. Environment variables are the safer default because command-line values can be saved in shell history. The Muse, Remotive, and Arbeitnow adapters do not require API keys according to the current project documentation.
 
 ---
 
