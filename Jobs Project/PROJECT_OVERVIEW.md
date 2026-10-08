@@ -73,23 +73,28 @@ Each run produces three files in the `output/` folder:
 
 ## File Structure
 
-```
+```text
 Jobs Project/
-├── pipeline.py          # Main orchestrator — runs all sources, deduplicates, saves
-├── scheduler.py         # Runs pipeline every 12 hours automatically
-├── utils.py             # Shared data model, geocoder, salary parser, skill extractor
-├── reed_scraper.py      # Reed.co.uk UK Partner API
-├── adzuna_scraper.py    # Adzuna — 16 countries, 50+ boards per country
-├── themuse_scraper.py   # The Muse — global, no key required
-├── remotive_scraper.py  # Remotive — global remote jobs, no key required
-├── arbeitnow_scraper.py # Arbeitnow — global tech/EU, no key required
-├── base_scraper.py      # Shared base class (rotating headers, retry logic)
-├── requirements.txt     # pip dependencies
-├── Dockerfile           # Container image definition
-├── docker-compose.yml   # One-command production deployment
-├── output/              # Generated — CSV, JSON, briefing files
-└── logs/                # Generated — rotating scheduler logs
+├── README.md
+├── PROJECT_OVERVIEW.md
+├── User Guide — Recruitment Scraper.md
+├── Data Description — Recruitment Scraper.md
+├── pipeline.py
+├── scheduler.py
+├── utils.py
+├── reed_scraper.py
+├── adzuna_scraper.py
+├── themuse_scraper.py
+├── remotive_scraper.py
+├── arbeitnow_scraper.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── output/                 # sample exports; runtime results are written here
+└── logs/                   # created by the scheduler
 ```
+
+See [README.md](README.md) for the end-to-end workflow and run commands.
 
 ---
 
@@ -111,4 +116,4 @@ python scheduler.py
 docker-compose up -d
 ```
 
-No API keys required — working credentials are built in. See `OPERATIONS_GUIDE.md` for the full CLI reference and advanced options.
+Some source APIs may require credentials or impose rate limits. Configure required credentials through environment variables and keep them out of version control. See the [user guide](<User Guide — Recruitment Scraper.md>) for CLI options and operating details.
